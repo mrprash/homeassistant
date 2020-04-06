@@ -1,0 +1,20 @@
+version: "2"
+volumes:
+  config:
+services:
+  homeassistant:
+    image: homeassistant/raspberrypi3-homeassistant:stable
+    network_mode: host
+    privileged: true
+    volumes:
+      - config:/config
+  mqtt:
+    image: arm64v8/eclipse-mosquitto
+    ports:
+      - 1883:1883
+  cli:
+    build: cli
+    ports:
+      - 2222:22/tcp
+    volumes:
+      - config:/config
